@@ -1,19 +1,25 @@
-// TODO: Create a function that returns a license badge based on which license is passed in
-// If there is no license, return an empty string
-function renderLicenseBadge(license) {}
+// creates table of contents
+populateContents = contentsArr => {
 
-// TODO: Create a function that returns the license link
-// If there is no license, return an empty string
-function renderLicenseLink(license) {}
+  let contentsList = ''
 
-// TODO: Create a function that returns the license section of README
-// If there is no license, return an empty string
-function renderLicenseSection(license) {}
+  contentsArr.forEach(item => {
+      contentsList += `* [${item}](#${item.toLowerCase().split(' ').join('-')})
+`
+  })
 
-// TODO: Create a function to generate markdown for README
+  return contentsList;
+}
+
+
+// function to generate markdown for README
 function generateMarkdown(data) {
-  return `# ${data.title}
 
+  return `# ${data.title}
+## Description
+${data.description}
+## Contents
+${populateContents(data.contents)}
 `;
 }
 
