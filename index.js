@@ -31,15 +31,28 @@ const questions = [
         }
     },
     {
+        type: 'input',
+        name: 'usage',
+        message: 'Please provide information for using your application. (Required)',
+        validate: usageInput => {
+            if (usageInput) {
+                return true;
+            } else {
+                console.log('Please provide information for using your application!');
+                return false;
+            }
+        }
+    },
+    {
         type: 'checkbox',
         name: 'contents',
         message: 'Which sections would you like to include in your README?',
-        choices: ['Deployed Application', 'Installation', 'Usage', 'Screenshots', 'License', 'Contributing', 'Tests', 'Questions', 'Credits']
+        choices: ['Deployed Application', 'Installation', 'Screenshots', 'License', 'Contributing', 'Tests', 'Questions', 'Credits']
     },
     {
         type: 'input',
         name: 'link',
-        message: 'Please provide a link to your deployed application.  (Required)',
+        message: 'Please provide a link to your deployed application.',
         when: ({ contents }) => {
             if (contents.indexOf('Deployed Application') > -1) {
                 return true;
@@ -66,16 +79,12 @@ const questions = [
             } else {
                 return false;
             }
-        }
-    },
-    {
-        type: 'input',
-        name: 'usage',
-        message: 'Please provide information for using your application.',
-        when: ({ contents }) => {
-            if (contents.indexOf('Usage') > -1 ) {
+        },
+        validate: installInput => {
+            if (installInput) {
                 return true;
             } else {
+                console.log('Please enter installation instructions!');
                 return false;
             }
         }
@@ -90,6 +99,14 @@ const questions = [
             } else {
                 return false;
             }
+        },
+        validate: licenseInput => {
+            if (licenseInput) {
+                return true;
+            } else {
+                console.log('Please provide license information!');
+                return false;
+            }
         }
     }, 
     {
@@ -102,28 +119,32 @@ const questions = [
             } else {
                 return false;
             }
-        }
-    },
-    {
-        type: 'input',
-        name: 'tests',
-        message: 'Please enter tests for your application.',
-        when: ({ contents }) => {
-            if (contents.indexOf('Tests') > -1) {
+        },
+        validate: contributingInput => {
+            if (contributingInput) {
                 return true;
             } else {
+                console.log('Please enter guidelines for contributing!');
                 return false;
             }
         }
     },
     {
         type: 'input',
-        name: 'github',
-        message: 'Please enter your GitHub username for others to reach you with questions.',
+        name: 'tests',
+        message: 'Please enter test information for your application.',
         when: ({ contents }) => {
-            if (contents.indexOf('Questions') > -1) {
+            if (contents.indexOf('Tests') > -1) {
                 return true;
             } else {
+                return false;
+            }
+        },
+        validate: testsInput => {
+            if (testsInput) {
+                return true;
+            } else {
+                console.log('Please enter test information for your application!');
                 return false;
             }
         }
@@ -138,10 +159,37 @@ const questions = [
             } else {
                 return false;
             }
+        },
+        validate: questionsInput => {
+            if (questionsInput) {
+                return true;
+            } else {
+                console.log('Please provide an email address!');
+                return false;
+            }
+        }
+    },
+    {
+        type: 'input',
+        name: 'github',
+        message: 'Please enter your GitHub username for others to reach you with questions.',
+        when: ({ contents }) => {
+            if (contents.indexOf('Questions') > -1) {
+                return true;
+            } else {
+                return false;
+            }
+        },
+        validate: githubInput => {
+            if (githubInput) {
+                return true;
+            } else {
+                console.log('Please enter your GitHub username!');
+                return false;
+            }
         }
     }
 ];
-
 // array of prompts for adding screenshots
 const screenshotQues = [
     {
@@ -181,7 +229,6 @@ const screenshotQues = [
         default: false
     }
 ];
-
 // array of prompts for adding credits
 const creditQues = [
     {
@@ -209,10 +256,9 @@ const creditQues = [
         default: false
     }
 ]
-
 // recursive function for adding screenshots
 addScreenshots = readmeData => {
-
+    
     // initiates screenshot array
     if (!readmeData.screenshots) {
         readmeData.screenshots = [];
@@ -224,10 +270,8 @@ Add New Screenshot
     `);
     return inquirer.prompt(screenshotQues)
     .then(screenshotData => {
-
         // adds the screenshot to the array
         readmeData.screenshots.push(screenshotData);
-
         // will call addScreenshots again based on user input
         if (screenshotData.confirmAddScreenshot) {
             return addScreenshots(readmeData);
@@ -236,10 +280,9 @@ Add New Screenshot
         };
     });
 };
-
 // recursive function for adding credits
 addCredits = readmeInfo => {
-
+    
     // initiates array for credits
     if (!readmeInfo.credits) {
         readmeInfo.credits = [];
@@ -249,13 +292,10 @@ addCredits = readmeInfo => {
 Add New Credit
 ==============
     `);
-
     return inquirer.prompt(creditQues)
     .then(creditData => {
-
         // adds credits to array
         readmeInfo.credits.push(creditData);
-
         // will call addCredits again based on user input
         if (creditData.confirmAddCredit) {
             return addCredits(readmeInfo);
@@ -273,7 +313,6 @@ function writeToFile(fileName, data) {
         console.log('README created!')
     })
 }
-
 // function to initialize program
 function init() {
     return inquirer.prompt(questions);
