@@ -50,6 +50,9 @@ To run tests on the application, install
 There is no test information for this application at this time.
 ```
 and run `npm run test` from the command line.
+
+## Demo Video
+Visit YouTube [here](https://youtu.be/MdHFXr06qhg) to view a demonstration video of how to install the application.
     
 ## Questions
 If you have any questions about the repo, please [open an issue](https://github.com/valiantcreative33/readme-generator/issues) or contact me via email at ruben@valiantcreative.net. You can find more of my work on my GitHub, [valiantcreative33](https://github.com/valiantcreative33/).
