@@ -33,7 +33,7 @@ const questions = [
     {
         type: 'input',
         name: 'repo',
-        message: 'Please enter the name of your repo.  (Required)',
+        message: 'Please enter the name of your repo. (Required)',
         validate: repoInput => {
             if (repoInput) {
                 return true;
@@ -45,7 +45,7 @@ const questions = [
     {
         type: 'input',
         name: 'description',
-        message: 'Provide a description of your application.  (Required)',
+        message: 'Provide a description of your application. (Required)',
         validate: descInput => {
             if (descInput) {
                 return true;
@@ -56,9 +56,22 @@ const questions = [
         }
     },
     {
+        type: 'input',
+        name: 'usage',
+        message: 'Please provide information for using your application. (Required)',
+        validate: usageInput => {
+            if (usageInput) {
+                return true;
+            } else {
+                console.log('Please provide information for using your application!');
+                return false;
+            }
+        }
+    },
+    {
         type: 'checkbox',
         name: 'contents',
-        message: 'Which sections would you like to include in your README?',
+        message: 'Any additional sections you would like to include in your README?',
         choices: [
             {
                 name: 'Deployed Application',
@@ -69,11 +82,11 @@ const questions = [
                 checked: false
             },
             {
-                name: 'Usage',
+                name: 'Screenshots',
                 checked: true
             },
             {
-                name: 'Screenshots',
+                name: 'Built With',
                 checked: true
             },
             {
@@ -121,7 +134,7 @@ const questions = [
     {
         type: 'input',
         name: 'installation',
-        message: 'Please provide installation instructions.',
+        message: 'Please list any required packages for installation of your application.',
         when: ({ contents }) => {
             if (contents.indexOf('Installation') > -1) {
                 return true;
@@ -134,19 +147,6 @@ const questions = [
                 return true;
             } else {
                 console.log('Please enter installation instructions!');
-                return false;
-            }
-        }
-    },
-    {
-        type: 'input',
-        name: 'usage',
-        message: 'Please provide information for using your application. (Required)',
-        validate: usageInput => {
-            if (usageInput) {
-                return true;
-            } else {
-                console.log('Please provide information for using your application!');
                 return false;
             }
         }
@@ -169,6 +169,20 @@ const questions = [
                 return true;
             } else {
                 console.log('Please provide license information!');
+                return false;
+            }
+        }
+    }, 
+    {
+        type: 'checkbox',
+        name: 'built with',
+        message: 'Please select the technologies that your application was built with.',
+        choices: ['HTML', 'CSS', 'SASS', 'JavaScript', 'Node.js', 'Express.js'],
+        default: 0,
+        when: ({ contents }) => {
+            if (contents.indexOf('Built With') > -1) {
+                return true;
+            } else {
                 return false;
             }
         }
@@ -208,7 +222,7 @@ const questions = [
             if (testsInput) {
                 return true;
             } else {
-                console.log('Please enter test information for your application!');
+                console.log('What packages are required to run tests for your application?');
                 return false;
             }
         }
@@ -291,7 +305,15 @@ const creditQues = [
     {
         type: 'input',
         name: 'creditLink',
-        message: 'Please provide a link for the credit.  (Optional)',
+        message: 'Please provide a link for the credit.  (Required)',
+        validate: creditLink => {
+            if (creditLink) {
+                return true;
+            } else {
+                console.log('Please enter a name for the credit!');
+                return false;
+            }
+        }
     },
     {
         type: 'confirm',
@@ -330,7 +352,7 @@ addCredits = readmeInfo => {
     // initiates array for credits
     if (!readmeInfo.credits) {
         readmeInfo.credits = [];
-    }
+    };
     console.log(`
 ==============
 Add New Credit
@@ -346,8 +368,8 @@ Add New Credit
         } else {
             return readmeInfo;
         }
-    })
-}
+    });
+};
 // function to write README file
 function writeToFile(fileName, data) {
     fs.writeFile(`./dist/${fileName}`, data, err => {
@@ -355,12 +377,12 @@ function writeToFile(fileName, data) {
             throw err
         };
         console.log('README created!')
-    })
-}
+    });
+};
 // function to initialize program
 function init() {
     return inquirer.prompt(questions);
-}
+};
 // function call to initialize program
 init()
     .then(userResponse => { 

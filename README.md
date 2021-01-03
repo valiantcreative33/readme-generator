@@ -23,10 +23,10 @@ npm inquirer
 ```
     
 ## Usage
-To use this application, please install: npm inquirer 
+After cloning the repo and installing npm inquirer, use the command line to navigate and type node index. Follow prompts to enter required fields and select from optional additional fields. The README will be created in the ./dist folder. 
     
 ### Screenshots
-![Here is the screenshot image of the application.](./images/screenshot.png)
+![Here is the screenshot image of the application.](./dist/images/screenshot.png)
 A screenshot image of the application.
 
 ## Built With
